@@ -1,0 +1,191 @@
+/* ==========================================================================
+   profile.css
+   Field-journal styled profile card.
+   Color tokens:
+     --pine-deep      #1E2B22  page background
+     --pine           #3F5648  accents / eyebrow text / decor icon
+     --parchment-light#F6EEDC  card gradient start / borders
+     --parchment-dark #E3D2AC  card gradient end
+     --rust           #A3432E  "Pro Member" stamp badge
+     --gold-line      #B99A5B  hairline rules
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #1E2B22;
+  background-image:
+    radial-gradient(circle at 20% 15%, rgba(255,255,255,0.04), transparent 40%),
+    radial-gradient(circle at 80% 85%, rgba(255,255,255,0.03), transparent 45%);
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  color: #24312A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+}
+
+/* -------------------------------------------------------------------------
+   #profile-card  -- the RELATIVE positioning context for the whole card.
+   The badge and the decorative icon are both anchored to ancestors inside
+   this box, so nothing in the card can be pushed around by outer layout.
+   ------------------------------------------------------------------------- */
+#profile-card {
+  position: relative;               /* establishes the positioning context */
+  width: min(440px, 92vw);
+  margin: 0 auto;                   /* box model: centers the card */
+  padding: 44px 38px 30px;          /* box model: inner spacing */
+  border: 1px solid #B99A5B;        /* box model: border */
+  border-radius: 18px;
+  background-image: linear-gradient(135deg, #F6EEDC 0%, #E3D2AC 100%); /* gradient */
+  box-shadow: 0 30px 60px -22px rgba(0,0,0,0.55);
+  overflow: visible;                /* let the badge/icon hang past the edge */
+}
+
+/* Descendant selector: only headings inside the card get the display face */
+#profile-card h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  line-height: 1.15;
+  margin: 0 0 10px 0;                /* box model: margin */
+  color: #24312A;
+  letter-spacing: 0.01em;
+}
+
+/* -------------------------------------------------------------------------
+   Badge: "Pro Member" stamp, ABSOLUTELY positioned to the top-right corner
+   of #profile-card. Because #profile-card is position:relative, top/right
+   are measured from *its* padding box, not the browser window.
+   ------------------------------------------------------------------------- */
+#badge-pro {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  z-index: 5;
+  padding: 8px 18px;                 /* box model */
+  margin: 0;
+  border: 2px dashed #F6EEDC;        /* box model */
+  border-radius: 3px;
+  background-color: #A3432E;
+  color: #F6EEDC;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transform: rotate(6deg);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.35);
+  white-space: nowrap;
+}
+
+.card-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+/* -------------------------------------------------------------------------
+   .avatar-wrap: a small RELATIVE positioning context of its own, sized to
+   match the profile image, so the decorative leaf icon can be ABSOLUTELY
+   positioned against the image itself rather than the whole card.
+   ------------------------------------------------------------------------- */
+.avatar-wrap {
+  position: relative;
+  flex: 0 0 auto;
+  width: 140px;
+  height: 140px;
+}
+
+.profile-image {
+  display: block;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 4px solid #F6EEDC;         /* box model */
+  box-shadow: 0 0 0 2px #3F5648, 0 12px 24px rgba(0,0,0,0.3);
+}
+
+/* Decorative icon: overlaps the bottom-left corner of the profile image */
+.decor-icon {
+  position: absolute;
+  bottom: -8px;
+  left: -8px;
+  width: 44px;
+  height: 44px;
+  border: 3px solid #F6EEDC;         /* box model */
+  border-radius: 50%;
+  background-color: #3F5648;
+  background-image: url("leaf-icon.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 58%;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.35);
+}
+
+.profile-info {
+  flex: 1 1 auto;
+  min-width: 0;                      /* allow text to wrap inside flex item */
+}
+
+/* Class selector on an inline label */
+
+/* Descendant selector: paragraphs specifically inside .profile-info */
+.profile-info p.bio {
+  margin: 0 0 18px 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: #3A4A3D;
+}
+
+/* ==========================================================================
+   Responsive layout: below 600px the card stacks vertically and the
+   profile image / badge are resized to fit the narrower viewport.
+   ========================================================================== */
+@media screen and (max-width: 600px) {
+  #profile-card {
+    padding: 64px 22px 26px;
+  }
+
+  .card-body {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .avatar-wrap {
+    width: 96px;
+    height: 96px;
+  }
+
+  .profile-image {
+    width: 96px;
+    height: 96px;
+  }
+
+  .decor-icon {
+    width: 32px;
+    height: 32px;
+    bottom: -6px;
+    left: -6px;
+  }
+
+  #badge-pro {
+    top: 14px;
+    right: 50%;
+    transform: translateX(50%) rotate(0deg);
+    font-size: 10px;
+    padding: 6px 14px;
+  }
+
+  .meta-row {
+    justify-content: center;
+  }
+}
